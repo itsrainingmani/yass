@@ -31,24 +31,16 @@ const gridValues = (grid: string) => {
 	return new Map(chars);
 }
 
-const parseGrid = (grid: string) => {
-	// Convert grids to a Map of possible values
-	const values = new Map();
-	squares.map(s => {values.set(s, digits)});
-	for (const [s, d] of gridValues(grid)){
-		if (digits.includes(d) && !assign(values, s, d)){
-			return false;
-		}
-	}
-	return values;
-}
+// export const parseGrid = (grid: string) => {
+// 	// Convert grids to a Map of possible values
+// 	const values: Map<string, string> = new Map();
+// 	squares.map(s => {values.set(s, digits)});
+// 	gridValues(grid).forEach((v, k) => {
+// 		if (digits.includes(v) && !assign(values, v, k)){
+// 			return false;
+// 		}
+// 	});
+// 	return values;
+// }
 
-// CommonJS
-module.exports = {
-	squares,
-	unitlist,
-	units,
-	peers,
-	gridValues,
-	parseGrid
-}
+export { squares, unitlist, units, peers, gridValues }
