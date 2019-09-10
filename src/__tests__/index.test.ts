@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-undef */
-const yass = require('../lib/index');
-const assert = require('assert');
+import * as yass from '../index';
+
+import * as mocha from 'mocha';
+import assert from 'assert';
 
 describe('Sudoku', () => {
 	describe('length checks', () => {
@@ -58,6 +58,6 @@ describe('Sudoku', () => {
 
 	it('Check grid values', () => {
 		const grid = '4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......';
-		process.stdout.write(yass.gridValues(grid));
+		process.stdout.write(JSON.stringify(yass.gridValues(grid)));
 	});
 });
