@@ -20,6 +20,8 @@ export default class Yass {
 			const arrReducer = (acc: string[], cur: string[]) => {
 				return acc.concat(cur);
 			};
+			// curUnits.reduce(arrReducer) creates one array out of the 3 different unitlist arrays
+			// then we filter out the square value itself and instantiate a set with this array
 			this.peers.set(s, new Set(curUnits.reduce(arrReducer).filter(v => v !== s)));
 		}
 	}
