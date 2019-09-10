@@ -10,6 +10,13 @@ describe('Sudoku', () => {
 		it('length of unitlist should be 27', () => {
 			assert.strictEqual(yass.unitlist.length, 27);
 		});
+		it('length of peers should be 20', () => {
+			const peerValue = yass.peers.get('C2');
+			if (peerValue === undefined) {
+				return false;
+			}
+			assert.strictEqual(peerValue.size, 20);
+		})
 	});
 
 	describe('type checks', () => {
@@ -32,7 +39,6 @@ describe('Sudoku', () => {
 			new Set([
 				'A2',
 				'B2',
-				'C2',
 				'D2',
 				'E2',
 				'F2',
@@ -57,6 +63,7 @@ describe('Sudoku', () => {
 
 	it('Check grid values', () => {
 		const grid = '4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......';
-		process.stdout.write(JSON.stringify(yass.gridValues(grid)));
+		const parsedGrid = yass.gridValues(grid);
+		parsedGrid.forEach(v => console.log(v));
 	});
 });
