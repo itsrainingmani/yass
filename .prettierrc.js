@@ -1,10 +1,10 @@
-{
+module.exports = {
 	"arrowParens": "avoid",
 	"bracketSpacing": true,
 	"endOfLine": "lf",
 	"htmlWhitespaceSensitivity": "css",
 	"insertPragma": false,
-	"printWidth": 80,
+	"printWidth": 120,
 	"proseWrap": "preserve",
 	"requirePragma": false,
 	"quoteProps": "as-needed",
