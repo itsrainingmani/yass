@@ -1,6 +1,7 @@
-import * as yass from '../index';
+import Yass from '../index';
 import assert from 'assert';
 
+const yass = new Yass();
 describe('Sudoku', () => {
 	describe('length checks', () => {
 		it('length of squares should be 81', () => {
