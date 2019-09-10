@@ -4,27 +4,51 @@ const constants = require('./sudoku.json');
 console.log(chalk.cyan.bold('Yet Another Sudoku Solver\n'));
 const { squares, unitlist } = constants;
 
-const cross = (A, B) => {
-	const crossProduct = new Array();
-	for (const i of A) {
-		for (const j of B) {
-			crossProduct.push(i + j);
-		}
-	}
-	return crossProduct;
-}
 
+const digits   = '123456789'
+const rows     = 'ABCDEFGHI'
+const cols     = digits
 const units = new Map();
+const peers = new Map();
+
 let curUnits = [];
 for (const s of squares) {
 	// gets all unitlist arrays that contain s
 	curUnits = unitlist.filter(u => u.includes(s));
 	units.set(s, curUnits);
+
+	const arrReducer = (acc, cur) => acc.concat(cur);
+	peers.set(s, new Set(curUnits.reduce(arrReducer)));
+}
+
+const grid_values = (grid) => {
+	const chars = [];
+	grid.split('').forEach((v, i) => {
+		if (digits.includes(v) || '0.'.includes(v)){
+			chars.push([squares[i],v]);
+		}
+	});
+	return new Map(chars);
+}
+
+const parse_grid = (grid) => {
+	// Convert grids to a Map of possible values
+	const values = new Map();
+	squares.map(s => {values.set(s, digits)});
+	for (const [s, d] of grid_values(grid)){
+		if (digits.includes(d) && !assign(values, s, d)){
+			return false;
+		}
+	}
+	return values;
 }
 
 // CommonJS
 module.exports = {
 	squares,
 	unitlist,
-	units
+	units,
+	peers,
+	grid_values,
+	parse_grid
 }
