@@ -1,10 +1,8 @@
 module.exports = {
 	parser: '@typescript-eslint/parser', // specifies the eslint parser
+	plugins: ['@typescript-eslint'],
 	extends: [
 		"plugin:@typescript-eslint/recommended",
-		"eslint:recommended",
-		"plugin:import/errors",
-		"plugin:import/warnings",
 		"prettier/@typescript-eslint",
 		"plugin:prettier/recommended" // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
 	],
@@ -12,7 +10,7 @@ module.exports = {
 		ecmaVersion: 2018,
 		sourceType: "module" // allows for the use of imports
 	},
-	"rules": {
+	rules: {
 		"no-cond-assign": 0,
 		"no-unused-vars": 2,
 		"object-shorthand": [
