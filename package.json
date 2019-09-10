@@ -5,6 +5,7 @@
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
 	"scripts": {
+		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
 		"lint": "eslint src/**/*.ts --fix",
 		"test": "mocha -r ts-node/register src/**/*.test.ts",
 		"dev": "node index.js",
