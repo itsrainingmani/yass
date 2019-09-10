@@ -1,6 +1,4 @@
 import * as yass from '../index';
-
-import * as mocha from 'mocha';
 import assert from 'assert';
 
 describe('Sudoku', () => {
