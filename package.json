@@ -2,11 +2,15 @@
 	"name": "yass",
 	"version": "1.0.0",
 	"description": "Yet Another Sudoku Solver",
-	"main": "index.js",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
 	"scripts": {
-		"lint": "eslint .",
+		"lint": "eslint . --fix",
 		"test": "mocha",
-		"dev": "node index.js"
+		"dev": "node index.js",
+		"build": "tsc",
+		"prepare": "npm run build",
+		"prepublishOnly": "npm test && npm run lint"
 	},
 	"repository": {
 		"type": "git",
@@ -26,13 +30,17 @@
 		"chalk": "^2.4.2"
 	},
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^2.2.0",
+		"@typescript-eslint/parser": "^2.2.0",
 		"eslint": "^6.3.0",
 		"eslint-config-prettier": "^6.2.0",
 		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-prettier": "^3.1.0",
 		"husky": "^3.0.5",
 		"lint-staged": "^9.2.5",
 		"mocha": "^6.2.0",
-		"prettier": "^1.18.2"
+		"prettier": "^1.18.2",
+		"typescript": "^3.6.2"
 	},
 	"husky": {
 		"pre-commit": "lint-staged"
@@ -46,5 +54,8 @@
 			"prettier --write",
 			"git add"
 		]
-	}
+	},
+	"files": [
+		"lib/**/*"
+	]
 }
