@@ -26,6 +26,7 @@ export default class Yass {
 		}
 	}
 
+	// Convert grid string into a Map of Square -> Char
 	gridValues = (grid: string) => {
 		const chars: [string, string][] = [];
 		grid.split('').forEach((v, i) => {
@@ -36,15 +37,90 @@ export default class Yass {
 		return new Map(chars);
 	};
 
-	// export const parseGrid = (grid: string) => {
-	// 	// Convert grids to a Map of possible values
-	// 	const values: Map<string, string> = new Map();
-	// 	squares.map(s => {values.set(s, digits)});
-	// 	gridValues(grid).forEach((v, k) => {
-	// 		if (digits.includes(v) && !assign(values, v, k)){
-	// 			return false;
-	// 		}
-	// 	});
-	// 	return values;
-	// }
+	parseGrid = (grid: string) => {
+		// Starting off every square can be any digit
+		let eachValues: [string, string][] = [];
+		this.squares.map(s => { eachValues.push([s, this.digits]) });
+		// Convert grids to a Map of possible values
+		let values: Map<string, string> = new Map(eachValues.values());
+
+		// For each square, assign values from the grid if it has a value
+		this.gridValues(grid).forEach((data, sq) => {
+			console.log(sq + ' ' + data);
+			if (this.digits.includes(data) && !this.assign(values, sq, data)) {
+				return false;
+			}
+		});
+		return values;
+	}
+
+
+	// Eliminate d from the values map; propagate when values or places <= 2
+	eliminate = (values: Map<string, string>, s: string, d: string) => {
+		const vals = (values.get(s) || '');
+		// Already eliminated
+		if (!vals.includes(d)) {
+			return true;
+		}
+		values.set(s, vals.replace(d, ''));
+
+		// If a square s is reduced to one value d2, then eliminate d2 from the peers
+		if ((values.get(s) || '').length === 0) {
+			// Contradiction: Removed last value
+			return false;
+		} else if ((values.get(s) || '').length === 1) {
+			let d2 = (values.get(s) || '');
+			let curPeers = Array.from(this.peers.get(s) || []);
+			if (!curPeers.every(s2 => this.eliminate(values, s2, d2))) {
+				return false;
+			}
+		}
+
+		for (const u of this.units.get(s) || []) {
+			const dplaces = u.filter(s => (values.get(s) || '').includes(d));
+			console.log(dplaces);
+			if (dplaces.length === 0) {
+				// Contradiction: No place for this value
+				return false;
+			} else if (dplaces.length === 1) {
+				if (!this.assign(values, dplaces[0], d)) {
+					return false;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	assign = (values: Map<string, string>, s: string, d: string) => {
+		const otherValues = (values.get(s) || '').replace(d, '').split('');
+		if (otherValues.every(d2 => this.eliminate(values, s, d2))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	solveAll = (grids: string[]): string => {
+		return '';
+	}
+
+	display = (values: Map<string, string>): void => {
+		const lenArray = this.squares.map(s => (values.get(s) || '').length);
+		const width: number = 1 + Math.max(...lenArray);
+		const line = chalk.cyan(('-'.repeat(width * 3) + '+').repeat(3));
+		for (let r in this.rows.split('')) {
+			let curRow = '';
+			for (let c in this.cols.split('')) {
+				if ('36'.includes(c)) {
+					curRow += chalk.cyan('|');
+				}
+				curRow += (values.get(r + c) || '');
+			}
+			console.log(curRow);
+			if ('CF'.includes(r)) {
+				console.log(line);
+			}
+		}
+	}
 }
