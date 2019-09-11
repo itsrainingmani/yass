@@ -1,6 +1,8 @@
 import chalk from 'chalk';
 import constants from '../sudoku.json';
 
+type MapOrUndef = Map<string, string> | undefined;
+
 export default class Yass {
 	digits = '123456789';
 	rows = 'ABCDEFGHI';
@@ -27,10 +29,10 @@ export default class Yass {
 	}
 
 	solve = (grid: string) => {
-		return '';
+		return this.search(this.parseGrid(grid));
 	}
 
-	search = (values: Map<string, string>): Map<string, string> | undefined => {
+	search = (values: MapOrUndef): MapOrUndef => {
 		// Using depth-first search and propagation, try all possible values
 		if (values === undefined) {
 			return undefined; // Failed earlier
@@ -55,15 +57,17 @@ export default class Yass {
 			}
 		}
 
-		// FInd the square with the minimum number of possibilities
+		// Find the square with the minimum number of possibilities
 		const sqMinOptions = sqWithMoreThanOneOption.reduce(minReducer, sqWithMoreThanOneOption[0]);
 		const choices = (values.get(sqMinOptions) || '').split('');
 		for (let d of choices) {
 			let newValues = new Map(values);
-			if (this.assign(newValues, sqMinOptions, d)) {
-				return this.search(newValues);
+			let nextSearch = this.search(this.assign(newValues, sqMinOptions, d));
+			if (nextSearch !== undefined) {
+				return nextSearch;
 			}
 		}
+		return undefined;
 	}
 
 	// Convert grid string into a Map of Square -> Char
@@ -77,7 +81,7 @@ export default class Yass {
 		return new Map(chars);
 	};
 
-	parseGrid = (grid: string) => {
+	parseGrid = (grid: string): MapOrUndef => {
 		// Starting off every square can be any digit
 		let eachValues: [string, string][] = [];
 		this.squares.map(s => { eachValues.push([s, this.digits]) });
@@ -142,7 +146,7 @@ export default class Yass {
 		return true;
 	}
 
-	display = (values: Map<string, string> | undefined): void => {
+	display = (values: MapOrUndef): void => {
 		if (values === undefined) {
 			return;
 		}
