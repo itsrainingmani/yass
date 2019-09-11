@@ -2,7 +2,7 @@ import Yass from '../index';
 import assert from 'assert';
 
 const yass = new Yass();
-describe('Sudoku', () => {
+describe.skip('Yass Class Tests', () => {
 	describe('length checks', () => {
 		it('length of squares should be 81', () => {
 			assert.strictEqual(yass.squares.length, 81);
@@ -68,9 +68,11 @@ describe('Sudoku', () => {
 		const parsedGrid = yass.gridValues(grid);
 		parsedGrid.forEach((v, k) => console.log(k, v));
 	});
+});
 
-	it('display formatted grid', () => {
+describe('Sudoku Solving Tests', () => {
+	it('Easy Puzzle - 1', () => {
 		const grid = '003020600900305001001806400008102900700000008006708200002609500800203009005010300';
 		yass.display(yass.parseGrid(grid));
-	})
+	});
 });
