@@ -91,4 +91,10 @@ describe('Sudoku Solving Tests', () => {
 		yass.display(yass.gridValues(grid));
 		yass.display(yass.parseGrid(grid));
 	});
+
+	it('Hard Puzzle - 1 - Search', () => {
+		const grid = '4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......';
+		yass.display(yass.gridValues(grid));
+		yass.display(yass.search(yass.parseGrid(grid)));
+	});
 });
