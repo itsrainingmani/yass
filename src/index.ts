@@ -26,6 +26,46 @@ export default class Yass {
 		}
 	}
 
+	solve = (grid: string) => {
+		return '';
+	}
+
+	search = (values: Map<string, string>): Map<string, string> | undefined => {
+		// Using depth-first search and propagation, try all possible values
+		if (values === undefined) {
+			return undefined; // Failed earlier
+		}
+
+		// If every square only has one option, the puzzle is solved
+		if (this.squares.every(s => (values.get(s) || '').length === 1)) {
+			return values; // Solved
+		}
+
+		// Filter out squares that only have one option
+		const sqWithMoreThanOneOption = this.squares.filter(s => (values.get(s) || '').length > 1);
+
+		// Function to use as callback in array reduce
+		const minReducer = (curMin: string, curVal: string) => {
+			const curMinOptions = values.get(curMin) || '123456789';
+			const curValOptions = values.get(curVal) || '123456789';
+			if (curValOptions.length < curMinOptions.length) {
+				return curVal;
+			} else {
+				return curMin;
+			}
+		}
+
+		// FInd the square with the minimum number of possibilities
+		const sqMinOptions = sqWithMoreThanOneOption.reduce(minReducer, sqWithMoreThanOneOption[0]);
+		const choices = (values.get(sqMinOptions) || '').split('');
+		for (let d of choices) {
+			let newValues = new Map(values);
+			if (this.assign(newValues, sqMinOptions, d)) {
+				return this.search(newValues);
+			}
+		}
+	}
+
 	// Convert grid string into a Map of Square -> Char
 	gridValues = (grid: string) => {
 		const chars: [string, string][] = [];
@@ -45,11 +85,11 @@ export default class Yass {
 		let values: Map<string, string> = new Map(eachValues.values());
 
 		// For each square, assign values from the grid if it has a value
-		this.gridValues(grid).forEach((data, sq) => {
-			if (this.digits.includes(data) && !this.assign(values, sq, data)) {
-				return false;
+		for (let [sq, data] of this.gridValues(grid)) {
+			if (this.digits.includes(data) && this.assign(values, sq, data) === undefined) {
+				return undefined;
 			}
-		});
+		}
 		return values;
 	}
 
@@ -57,9 +97,9 @@ export default class Yass {
 		const otherValues = (values.get(s) || '').replace(d, '').split('');
 		// ELiminate all the other values (except d) from values[s] and propagate
 		if (otherValues.every(d2 => this.eliminate(values, s, d2))) {
-			return true;
+			return values;
 		} else {
-			return false;
+			return undefined;
 		}
 	}
 
@@ -102,11 +142,10 @@ export default class Yass {
 		return true;
 	}
 
-	solveAll = (grids: string[]): string => {
-		return '';
-	}
-
-	display = (values: Map<string, string>): void => {
+	display = (values: Map<string, string> | undefined): void => {
+		if (values === undefined) {
+			return;
+		}
 		const lenArray = this.squares.map(s => (values.get(s) || '').length);
 		const width: number = 1 + Math.max(...lenArray);
 		const line = chalk.cyan(('-'.repeat(width * 3) + '+').repeat(2) + '-'.repeat(width * 3));
