@@ -123,5 +123,6 @@ export default class Yass {
 				console.log(line);
 			}
 		}
+		process.stdout.write('\n');
 	}
 }
