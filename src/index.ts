@@ -46,12 +46,21 @@ export default class Yass {
 
 		// For each square, assign values from the grid if it has a value
 		this.gridValues(grid).forEach((data, sq) => {
-			console.log(sq + ' ' + data);
 			if (this.digits.includes(data) && !this.assign(values, sq, data)) {
 				return false;
 			}
 		});
 		return values;
+	}
+
+	assign = (values: Map<string, string>, s: string, d: string) => {
+		const otherValues = (values.get(s) || '').replace(d, '').split('');
+		// ELiminate all the other values (except d) from values[s] and propagate
+		if (otherValues.every(d2 => this.eliminate(values, s, d2))) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
@@ -64,7 +73,7 @@ export default class Yass {
 		}
 		values.set(s, vals.replace(d, ''));
 
-		// If a square s is reduced to one value d2, then eliminate d2 from the peers
+		// (1) If a square s is reduced to one value d2, then eliminate d2 from the peers
 		if ((values.get(s) || '').length === 0) {
 			// Contradiction: Removed last value
 			return false;
@@ -76,9 +85,10 @@ export default class Yass {
 			}
 		}
 
+		// (2) If a unit u is reduced to only one place for a value d, then put it there
 		for (const u of this.units.get(s) || []) {
 			const dplaces = u.filter(s => (values.get(s) || '').includes(d));
-			console.log(dplaces);
+			// console.log(dplaces);
 			if (dplaces.length === 0) {
 				// Contradiction: No place for this value
 				return false;
@@ -89,16 +99,7 @@ export default class Yass {
 			}
 		}
 
-		return false;
-	}
-
-	assign = (values: Map<string, string>, s: string, d: string) => {
-		const otherValues = (values.get(s) || '').replace(d, '').split('');
-		if (otherValues.every(d2 => this.eliminate(values, s, d2))) {
-			return true;
-		} else {
-			return false;
-		}
+		return true;
 	}
 
 	solveAll = (grids: string[]): string => {
@@ -108,14 +109,14 @@ export default class Yass {
 	display = (values: Map<string, string>): void => {
 		const lenArray = this.squares.map(s => (values.get(s) || '').length);
 		const width: number = 1 + Math.max(...lenArray);
-		const line = chalk.cyan(('-'.repeat(width * 3) + '+').repeat(3));
-		for (let r in this.rows.split('')) {
+		const line = chalk.cyan(('-'.repeat(width * 3) + '+').repeat(2) + '-'.repeat(width * 3));
+		for (let r of this.rows.split('')) {
 			let curRow = '';
-			for (let c in this.cols.split('')) {
+			for (let c of this.cols.split('')) {
+				curRow += (values.get(r + c) || '').padEnd(width, ' ');
 				if ('36'.includes(c)) {
 					curRow += chalk.cyan('|');
 				}
-				curRow += (values.get(r + c) || '');
 			}
 			console.log(curRow);
 			if ('CF'.includes(r)) {
