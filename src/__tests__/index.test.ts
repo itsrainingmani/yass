@@ -2,7 +2,7 @@ import Yass from '../index';
 import assert from 'assert';
 
 let yass: Yass;
-describe.skip('Yass Class Tests', () => {
+describe('Yass Class Tests', () => {
 	beforeEach(() => {
 		yass = new Yass();
 	});
