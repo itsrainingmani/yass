@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import constants from '../sudoku.json';
+import constants from './sudoku.json';
 
 type MapOrUndef = Map<string, string> | undefined;
 
