@@ -95,18 +95,18 @@ describe('Sudoku Solving Tests', () => {
 	it('Hard Puzzle - 1 - Search', () => {
 		const grid = '4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......';
 		yass.display(yass.gridValues(grid));
-		yass.display(yass.search(yass.parseGrid(grid)));
+		yass.display(yass.solve(grid));
 	});
 
 	it('Inkala 1 - Search', () => {
 		const grid = '85...24..72......9..4.........1.7..23.5...9...4...........8..7..17..........36.4.';
 		yass.display(yass.gridValues(grid));
-		yass.display(yass.search(yass.parseGrid(grid)));
+		yass.display(yass.solve(grid));
 	});
 
 	it('Inkala 2 - Search', () => {
 		const grid = '..53.....8......2..7..1.5..4....53...1..7...6..32...8..6.5....9..4....3......97..';
 		yass.display(yass.gridValues(grid));
-		yass.display(yass.search(yass.parseGrid(grid)));
+		yass.display(yass.solve(grid));
 	});
 });
