@@ -28,23 +28,16 @@ export default class Yass {
 		}
 	}
 
-	solve = (grid: string) => {
-		return this.search(this.parseGrid(grid));
-	}
+	// solve = (grid: string) => {
+	// 	let g = this.parseGrid(grid);
+	// 	return this.search(g);
+	// }
 
 	search = (values: MapOrUndef): MapOrUndef => {
 		// Using depth-first search and propagation, try all possible values
 		if (values === undefined) {
-			return undefined; // Failed earlier
+			return undefined;
 		}
-
-		// If every square only has one option, the puzzle is solved
-		if (this.squares.every(s => (values.get(s) || '').length === 1)) {
-			return values; // Solved
-		}
-
-		// Filter out squares that only have one option
-		const sqWithMoreThanOneOption = this.squares.filter(s => (values.get(s) || '').length > 1);
 
 		// Function to use as callback in array reduce
 		const minReducer = (curMin: string, curVal: string) => {
@@ -57,6 +50,14 @@ export default class Yass {
 			}
 		}
 
+		// If every square only has one option, the puzzle is solved
+		if (this.squares.every(s => (values.get(s) || '').length === 1)) {
+			return values; // Solved
+		}
+
+		// Filter out squares that only have one option
+		const sqWithMoreThanOneOption = this.squares.filter(s => (values.get(s) || '').length > 1);
+
 		// Find the square with the minimum number of possibilities
 		const sqMinOptions = sqWithMoreThanOneOption.reduce(minReducer, sqWithMoreThanOneOption[0]);
 		const choices = (values.get(sqMinOptions) || '').split('');
@@ -66,6 +67,7 @@ export default class Yass {
 			if (nextSearch !== undefined) {
 				return nextSearch;
 			}
+			return this.search(this.assign(newValues, sqMinOptions, d));
 		}
 		return undefined;
 	}
