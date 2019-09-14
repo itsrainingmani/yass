@@ -7,12 +7,16 @@ export default class Yass {
 	digits = '123456789';
 	rows = 'ABCDEFGHI';
 	cols = this.digits;
-	units: Map<string, string[][]> = new Map();
-	peers: Map<string, Set<string>> = new Map();
+	units: Map<string, string[][]> = new Map(); // Units for a square: [row], [col] and [box]
+	peers: Map<string, Set<string>> = new Map(); // Peers for a square: [row + col + box]
 	squares: string[] = constants.squares;
 	unitlist: string[][] = constants.unitlist;
+	transitions: Set<Map<string, string>>; // Global Values State Graph. Using a set to avoid duplicate states
 
 	constructor() {
+		// Instantiate the global state graph
+		this.transitions = new Set();
+
 		let curUnits: string[][] = [];
 		for (const s of this.squares) {
 			// gets all unitlist arrays that contain s
@@ -28,11 +32,14 @@ export default class Yass {
 		}
 	}
 
+	// Returns a Solved Grid
 	solve = (grid: string) => {
 		return this.search(this.parseGrid(grid));
 	}
 
+	// Tries to find square values using depth-first search and constraint propagation
 	search = (values: MapOrUndef): MapOrUndef => {
+		this.display(values); // Log the main entry point to the function
 		// Using depth-first search and propagation, try all possible values
 		if (values === undefined) {
 			return undefined; // Failed earlier
