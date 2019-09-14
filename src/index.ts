@@ -34,6 +34,7 @@ export default class Yass {
 
 	// Returns a Solved Grid
 	solve = (grid: string) => {
+		this.transitions.clear(); // Clear out the state graph
 		return this.search(this.parseGrid(grid));
 	}
 
@@ -71,13 +72,14 @@ export default class Yass {
 			let nextSearch = this.search(this.assign(newValues, sqMinOptions, d));
 			if (nextSearch !== undefined) {
 				return nextSearch;
-			} else {
-				// Remove the most recently added value to the global state graph
-				// if it was added by assign
-				if (this.transitions.has(newValues)){
-					this.transitions.delete(newValues);
-				}
 			}
+			// else {
+			// 	// Remove the most recently added value to the global state graph
+			// 	// if it was added by assign
+			// 	if (this.transitions.has(newValues)){
+			// 		this.transitions.delete(newValues);
+			// 	}
+			// }
 		}
 		return undefined;
 	}
@@ -156,6 +158,7 @@ export default class Yass {
 			}
 		}
 
+		this.transitions.add(values);
 		return true;
 	}
 
