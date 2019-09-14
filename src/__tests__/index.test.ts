@@ -75,7 +75,6 @@ describe('Yass Class Tests', () => {
 });
 
 describe('Sudoku Solving Tests', () => {
-
 	beforeEach(() => {
 		yass = new Yass();
 	});
@@ -109,4 +108,21 @@ describe('Sudoku Solving Tests', () => {
 		yass.display(yass.gridValues(grid));
 		yass.display(yass.solve(grid));
 	});
+});
+
+describe('DFS Test', () => {
+	beforeEach(() => {
+		yass = new Yass();
+	});
+
+	it('Iterate through the Global State Graph', () => {
+		const grid = '..53.....8......2..7..1.5..4....53...1..7...6..32...8..6.5....9..4....3......97..';
+		yass.display(yass.gridValues(grid));
+		yass.display(yass.solve(grid));
+
+		let globalStateGraph = yass.transitions;
+		for (let g of globalStateGraph.values()){
+			yass.display(g);
+		}
+	})
 });
