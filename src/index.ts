@@ -39,7 +39,6 @@ export default class Yass {
 
 	// Tries to find square values using depth-first search and constraint propagation
 	search = (values: MapOrUndef): MapOrUndef => {
-		this.display(values); // Log the main entry point to the function
 		// Using depth-first search and propagation, try all possible values
 		if (values === undefined) {
 			return undefined; // Failed earlier
@@ -72,6 +71,12 @@ export default class Yass {
 			let nextSearch = this.search(this.assign(newValues, sqMinOptions, d));
 			if (nextSearch !== undefined) {
 				return nextSearch;
+			} else {
+				// Remove the most recently added value to the global state graph
+				// if it was added by assign
+				if (this.transitions.has(newValues)){
+					this.transitions.delete(newValues);
+				}
 			}
 		}
 		return undefined;
@@ -108,6 +113,7 @@ export default class Yass {
 		const otherValues = (values.get(s) || '').replace(d, '').split('');
 		// ELiminate all the other values (except d) from values[s] and propagate
 		if (otherValues.every(d2 => this.eliminate(values, s, d2))) {
+			this.transitions.add(values); // Add the value obj to the global state graph
 			return values;
 		} else {
 			return undefined;
