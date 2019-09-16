@@ -11,7 +11,7 @@
 	"scripts": {
 		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
 		"lint": "eslint src/**/*.ts --fix",
-		"test": "mocha -r ts-node/register src/**/*.test.ts",
+		"test": "mocha --opts ./mocha.opts",
 		"dev": "node index.js",
 		"build": "rollup -c",
 		"watch": "rollup -cw",
