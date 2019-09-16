@@ -27,9 +27,7 @@
 		"url": "https://github.com/itsrainingmani/yass/issues"
 	},
 	"homepage": "https://github.com/itsrainingmani/yass#readme",
-	"dependencies": {
-		"chalk": "^2.4.2"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/mocha": "^5.2.7",
 		"@types/node": "^12.7.4",

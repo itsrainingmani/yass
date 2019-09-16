@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import constants from './sudoku.json';
 
 type MapOrUndef = Map<string, string> | undefined;
@@ -168,13 +167,13 @@ export default class Yass {
 		}
 		const lenArray = this.squares.map(s => (values.get(s) || '').length);
 		const width: number = 1 + Math.max(...lenArray);
-		const line = chalk.cyan(('-'.repeat(width * 3) + '+').repeat(2) + '-'.repeat(width * 3));
+		const line = ('-'.repeat(width * 3) + '+').repeat(2) + '-'.repeat(width * 3);
 		for (let r of this.rows.split('')) {
 			let curRow = '';
 			for (let c of this.cols.split('')) {
 				curRow += (values.get(r + c) || '').padEnd(width, ' ');
 				if ('36'.includes(c)) {
-					curRow += chalk.cyan('|');
+					curRow += '|';
 				}
 			}
 			console.log(curRow);
