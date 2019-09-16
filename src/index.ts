@@ -6,10 +6,10 @@ export default class Yass {
 	digits = '123456789';
 	rows = 'ABCDEFGHI';
 	cols = this.digits;
-	units: Map<string, string[][]> = new Map(); // Units for a square: [row], [col] and [box]
-	peers: Map<string, Set<string>> = new Map(); // Peers for a square: [row + col + box]
-	squares: string[] = constants.squares;
-	unitlist: string[][] = constants.unitlist;
+	private units: Map<string, string[][]> = new Map(); // Units for a square: [row], [col] and [box]
+	private peers: Map<string, Set<string>> = new Map(); // Peers for a square: [row + col + box]
+	private squares: string[] = constants.squares;
+	private unitlist: string[][] = constants.unitlist;
 	transitions: Set<Map<string, string>>; // Global Values State Graph. Using a set to avoid duplicate states
 
 	constructor() {
@@ -38,7 +38,7 @@ export default class Yass {
 	}
 
 	// Tries to find square values using depth-first search and constraint propagation
-	search = (values: MapOrUndef): MapOrUndef => {
+	private search = (values: MapOrUndef): MapOrUndef => {
 		// Using depth-first search and propagation, try all possible values
 		if (values === undefined) {
 			return undefined; // Failed earlier
@@ -94,7 +94,7 @@ export default class Yass {
 		return new Map(chars);
 	};
 
-	parseGrid = (grid: string): MapOrUndef => {
+	private parseGrid = (grid: string): MapOrUndef => {
 		// Starting off every square can be any digit
 		let eachValues: [string, string][] = [];
 		this.squares.map(s => { eachValues.push([s, this.digits]) });
@@ -110,7 +110,7 @@ export default class Yass {
 		return values;
 	}
 
-	assign = (values: Map<string, string>, s: string, d: string) => {
+	private assign = (values: Map<string, string>, s: string, d: string) => {
 		const otherValues = (values.get(s) || '').replace(d, '').split('');
 		// ELiminate all the other values (except d) from values[s] and propagate
 		if (otherValues.every(d2 => this.eliminate(values, s, d2))) {
@@ -123,7 +123,7 @@ export default class Yass {
 
 
 	// Eliminate d from the values map; propagate when values or places <= 2
-	eliminate = (values: Map<string, string>, s: string, d: string) => {
+	private eliminate = (values: Map<string, string>, s: string, d: string) => {
 		const vals = (values.get(s) || '');
 		// Already eliminated
 		if (!vals.includes(d)) {
