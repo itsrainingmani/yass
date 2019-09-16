@@ -2,6 +2,8 @@ import typescript from 'rollup-plugin-typescript2';
 import json from 'rollup-plugin-json';
 import pkg from './package.json';
 
+// const override = { compilerOptions: { module: 'es6' } };
+
 export default {
 	input: 'src/index.ts', // where to look for code to bundle
 	output: [
@@ -19,6 +21,7 @@ export default {
 	plugins: [
 		typescript({
 			typescript: require('typescript'),
+			// tsconfigOverride: override,
 		}),
 		json({
 			// All JSON files will be parsed by default,
