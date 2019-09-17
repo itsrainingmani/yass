@@ -85,12 +85,25 @@ export class Solver {
 
 	// Convert grid string into a Map of Square -> Char
 	gridValues = (grid: string) => {
+		// The grid string passed to this function can be in a couple of different formats that should be treated equally
+		// (1) If the grid is a multiline string, we convert it to a single-line string
+		grid = grid.replace(/(\r\n|\n|\r)/gm, "");
+
+		// (2) Single string of 81 characters. If it doesn't have 81 characters, pad the end
+		// If it has more than 81 characters, remove the extras
+		if (grid.length < 81) {
+			grid = grid.padEnd(81, '.');
+		} else if (grid.length > 81) {
+			grid = grid.slice(0, 81);
+		}
+
+		// (3) We only care about the grid string's numerical values.
+		// A square that doesn't have a valid numerical value between 1-9 should be replaced by a dot
+		let nonNumericRegex = /[^1-9]/g;
+		grid = grid.replace(nonNumericRegex, '.');
+
 		const chars: [string, string][] = [];
-		grid.split('').forEach((v, i) => {
-			if (this.digits.includes(v) || '0.'.includes(v)) {
-				chars.push([this.squares[i], v]);
-			}
-		});
+		grid.split('').forEach((v, i) => chars.push([this.squares[i], v]));
 		return new Map(chars);
 	};
 
