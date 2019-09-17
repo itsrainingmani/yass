@@ -72,6 +72,26 @@ describe('Yass Class Tests', () => {
 		const parsedGrid = yass.gridValues(grid);
 		parsedGrid.forEach((v, k) => console.log(k, v));
 	});
+
+	it('Grid is smaller than 81 characters', () => {
+		const grid = '0030206009003050010018064000081029007000000080067082000026095008002030090050103';
+		const parsedGrid = yass.gridValues(grid);
+		assert.strictEqual(parsedGrid.size, 81);
+	});
+
+	it('Grid is larger than 81 characters', () => {
+		const grid = '0030206009003050010018064000081029007000000080067082000026095008002030090050103asdfdsa3242';
+		const parsedGrid = yass.gridValues(grid);
+		assert.strictEqual(parsedGrid.size, 81);
+	});
+
+	it('Grid is a multiline string', () => {
+		const singleLineGrid = '003020600900305001001806400008102900700000008006708200002609500800203009005010300';
+		const multiLineGrid = '003020600\n900305001\n001806400\n008102900\n700000008\n006708200\n002609500\n800203009\n005010300';
+		const parsedGrid1 = yass.gridValues(singleLineGrid);
+		const parseGrid2 = yass.gridValues(multiLineGrid);
+		assert.deepEqual(parsedGrid1, parseGrid2);
+	});
 });
 
 describe('Sudoku Solving Tests', () => {
