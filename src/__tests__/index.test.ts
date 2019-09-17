@@ -1,4 +1,4 @@
-import Yass from '../index';
+import { Yass } from '../index';
 import assert from 'assert';
 
 let yass: Yass;
