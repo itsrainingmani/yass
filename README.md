@@ -17,7 +17,7 @@ npm install yass
 
 You can use it in your project by importing that package (CommonJS and ES Modules supported) and creating a new instance of the Solver class.
 
-<!-- ![Usage Example](https://imgur.com/a/EUZr4iM) -->
+![Usage Example](https://raw.githubusercontent.com/itsrainingmani/yass/master/usage-example.png)
 
 ## References
 
