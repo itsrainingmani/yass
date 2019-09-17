@@ -1,10 +1,10 @@
-import { Yass } from '../index';
+import { Solver } from '../index';
 import assert from 'assert';
 
-let yass: Yass;
+let yass: Solver;
 describe('Yass Class Tests', () => {
 	beforeEach(() => {
-		yass = new Yass();
+		yass = new Solver();
 	});
 
 	describe('length checks', () => {
@@ -76,7 +76,7 @@ describe('Yass Class Tests', () => {
 
 describe('Sudoku Solving Tests', () => {
 	beforeEach(() => {
-		yass = new Yass();
+		yass = new Solver();
 	});
 
 	it('Easy Puzzle - 1', () => {
@@ -112,7 +112,7 @@ describe('Sudoku Solving Tests', () => {
 
 describe('DFS Test', () => {
 	beforeEach(() => {
-		yass = new Yass();
+		yass = new Solver();
 	});
 
 	it('Iterate through the Global State Graph', () => {

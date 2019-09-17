@@ -2,7 +2,7 @@ import constants from './sudoku.json';
 
 type MapOrUndef = Map<string, string> | undefined;
 
-export class Yass {
+export class Solver {
 	digits = '123456789';
 	rows = 'ABCDEFGHI';
 	cols = this.digits;
