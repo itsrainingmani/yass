@@ -1,7 +1,7 @@
 import constants from './sudoku.json';
+import './string.extensions';
 
 type MapOrUndef = Map<string, string> | undefined;
-
 export class Solver {
 	digits = '123456789';
 	rows = 'ABCDEFGHI';
@@ -184,7 +184,8 @@ export class Solver {
 		for (let r of this.rows.split('')) {
 			let curRow = '';
 			for (let c of this.cols.split('')) {
-				curRow += (values.get(r + c) || '').padEnd(width, ' ');
+				// curRow += (values.get(r + c) || '').padEnd(width, ' ');
+				curRow += (values.get(r + c) || '').center(width, ' ');
 				if ('36'.includes(c)) {
 					curRow += '|';
 				}
