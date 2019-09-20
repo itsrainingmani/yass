@@ -1,6 +1,6 @@
 {
 	"name": "yass",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "Yet Another Sudoku Solver",
 	"main": "dist/index.js",
 	"module": "dist/index.es.js",
@@ -13,6 +13,7 @@
 		"lint": "eslint src/**/*.ts --fix",
 		"test": "mocha --opts ./mocha.opts",
 		"dev": "node index.js",
+		"doc": "rm -rf ./docs && typedoc -mode file --excludeExternals --exclude src/**/*.test.ts --out docs ./src",
 		"build": "rollup -c",
 		"watch": "rollup -cw",
 		"prepare": "npm run build",
