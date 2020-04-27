@@ -1,6 +1,6 @@
 {
 	"name": "yass",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Yet Another Sudoku Solver",
 	"main": "dist/index.js",
 	"module": "dist/index.es.js",
@@ -25,10 +25,11 @@
 	},
 	"keywords": [
 		"sudoku",
+		"solver",
 		"ts",
 		"lib"
 	],
-	"author": "Manikandan Sundararajan",
+	"author": "Manikandan Sundararajan <tsmanikandan@protonmail.com>",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/itsrainingmani/yass/issues"
