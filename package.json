@@ -1,5 +1,5 @@
 {
-	"name": "yass",
+	"name": "@itsrainingmani/yass",
 	"version": "1.0.0",
 	"description": "Yet Another Sudoku Solver",
 	"main": "dist/index.js",
